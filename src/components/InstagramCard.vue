@@ -4,12 +4,18 @@
     <div class="card-body p-0">
       <img class="card-img-top" src="https://picsum.photos/800" />
     </div>
+    <PostButtons />
     <div class="card-footer text-muted">2 days ago</div>
   </div>
 </template>
 
 <script>
+import PostButtons from "@/components/PostButtons.vue";
+
 export default {
   name: "InstagramCard",
+  components: {
+    PostButtons,
+  },
 };
 </script>
