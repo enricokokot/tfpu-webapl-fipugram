@@ -29,18 +29,34 @@
         <router-link to="/login" class="px-2">Login</router-link>
         <router-link to="/signup" class="px-2">Signup</router-link>
       </ul>
-      <form class="form-inline my-2 my-lg-0">
-        <input
-          class="form-control mr-sm-2"
-          type="search"
-          placeholder="Pretraga"
-          aria-label="Search"
-        />
-      </form>
+
+      <div class="row">
+        <NavbarButtons />
+
+        <form class="form-inline my-2 my-lg-0">
+          <input
+            class="form-control mr-sm-2 px-2"
+            type="search"
+            placeholder="Pretraga"
+            aria-label="Search"
+          />
+        </form>
+      </div>
     </div>
   </nav>
   <router-view />
 </template>
+
+<script>
+import NavbarButtons from "@/components/NavbarButtons.vue";
+
+export default {
+  name: "App",
+  components: {
+    NavbarButtons,
+  },
+};
+</script>
 
 <style lang="scss">
 #app {
