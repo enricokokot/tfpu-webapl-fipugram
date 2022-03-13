@@ -2,8 +2,8 @@
   <button type="button" class="btn btn-link text-success">
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
+      width="20"
+      height="20"
       fill="currentColor"
       class="bi bi-house-door-fill"
       viewBox="0 0 16 16"
@@ -17,8 +17,8 @@
   <button type="button" class="btn btn-link text-success">
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
+      width="20"
+      height="20"
       fill="currentColor"
       class="bi bi-send"
       viewBox="0 0 16 16"
@@ -32,8 +32,8 @@
   <button type="button" class="btn btn-link text-success">
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
+      width="20"
+      height="20"
       fill="currentColor"
       class="bi bi-plus-circle"
       viewBox="0 0 16 16"
@@ -50,8 +50,8 @@
   <button type="button" class="btn btn-link text-success">
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
+      width="20"
+      height="20"
       fill="currentColor"
       class="bi bi-compass"
       viewBox="0 0 16 16"
@@ -66,8 +66,8 @@
   <button type="button" class="btn btn-link text-success">
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
+      width="20"
+      height="20"
       fill="currentColor"
       class="bi bi-heart"
       viewBox="0 0 16 16"
@@ -81,8 +81,8 @@
   <button type="button" class="btn btn-link text-success">
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
+      width="20"
+      height="20"
       fill="currentColor"
       class="bi bi-person-circle"
       viewBox="0 0 16 16"

@@ -52,9 +52,8 @@
 </template>
 
 <script>
-// import app from "@/firebase";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-// import { app } from "@/firebase";
+import app from "@/firebase";
 
 export default {
   name: "Signup",
