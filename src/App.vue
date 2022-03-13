@@ -25,13 +25,19 @@
       id="navbarNavAltMarkup"
     >
       <ul class="navbar-nav">
-        <router-link to="/" class="px-2">Home</router-link>
-        <router-link to="/login" class="px-2">Login</router-link>
-        <router-link to="/signup" class="px-2">Signup</router-link>
+        <li v-if="!store.currentUser" class="nav-item">
+          <router-link to="/login" class="px-2">Login</router-link>
+        </li>
+        <li v-if="!store.currentUser" class="nav-item">
+          <router-link to="/signup" class="px-2">Signup</router-link>
+        </li>
+        <li v-if="store.currentUser" class="nav-item">
+          <a href="#" @click="logout" class="px-2">Logout</a>
+        </li>
       </ul>
 
       <div class="row">
-        <NavbarButtons />
+        <NavbarButtons v-if="store.currentUser" />
 
         <form class="form-inline my-2 my-lg-0">
           <input
@@ -45,13 +51,31 @@
       </div>
     </div>
   </nav>
-  {{ store.searchTerm }}
   <router-view />
 </template>
 
 <script>
 import NavbarButtons from "@/components/NavbarButtons.vue";
 import store from "@/store";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import app from "@/firebase";
+import router from "@/router";
+
+const auth = getAuth();
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in
+    console.log("***", user.email);
+    store.currentUser = user.email;
+  } else {
+    // User is not signed in
+    console.log("*** No user");
+    store.currentUser = null;
+    if (router.name !== "Login") {
+      router.push({ name: "Login" });
+    }
+  }
+});
 
 export default {
   name: "App",
@@ -60,6 +84,19 @@ export default {
   },
   components: {
     NavbarButtons,
+  },
+  methods: {
+    logout() {
+      const auth = getAuth();
+      signOut(auth)
+        .then(() => {
+          console.log(this.$router);
+          this.$router.push({ name: "Login" });
+        })
+        .catch((error) => {
+          // An error happened.
+        });
+    },
   },
 };
 </script>
