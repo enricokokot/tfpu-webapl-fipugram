@@ -35,6 +35,7 @@
 
         <form class="form-inline my-2 my-lg-0">
           <input
+            v-model="store.searchTerm"
             class="form-control mr-sm-2 px-2"
             type="search"
             placeholder="Pretraga"
@@ -44,14 +45,19 @@
       </div>
     </div>
   </nav>
+  {{ store.searchTerm }}
   <router-view />
 </template>
 
 <script>
 import NavbarButtons from "@/components/NavbarButtons.vue";
+import store from "@/store";
 
 export default {
   name: "App",
+  data() {
+    return { store };
+  },
   components: {
     NavbarButtons,
   },

@@ -2,7 +2,11 @@
   <div class="row">
     <div class="col-2"></div>
     <div class="col-7">
-      <instagram-card v-for="card in cards" :key="card.url" :card="card" />
+      <instagram-card
+        v-for="card in filterCards"
+        :key="card.url"
+        :card="card"
+      />
     </div>
     <div class="col-3"></div>
   </div>
@@ -11,6 +15,7 @@
 <script>
 // @ is an alias to /src
 import InstagramCard from "@/components/InstagramCard.vue";
+import store from "@/store";
 
 const cards = [
   {
@@ -35,7 +40,15 @@ export default {
   data: function () {
     return {
       cards,
+      store,
     };
+  },
+  computed: {
+    filterCards() {
+      return this.cards.filter((card) =>
+        card.description.includes(this.store.searchTerm)
+      );
+    },
   },
   components: {
     InstagramCard,
