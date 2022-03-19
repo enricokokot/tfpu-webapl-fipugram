@@ -3,7 +3,7 @@
     <div class="col-2"></div>
     <div class="col-7">
       <!-- nova forma za post -->
-      <form @submit.prevent="postNewImage" class="mb-5">
+      <form v-if="!loading" @submit.prevent="postNewImage" class="mb-5">
         <UploadImages
           :max="1"
           maxError="Max files exceed"
@@ -21,6 +21,7 @@
         </div>
         <button type="submit" class="btn btn-primary ml-2">Post image</button>
       </form>
+      <img v-if="loading" src="@/assets/loading.gif" width="400" />
       <!-- listanje kartica -->
       <instagram-card v-for="card in filterCards" :key="card.id" :card="card" />
     </div>
@@ -50,8 +51,8 @@ export default {
       cards: [],
       store,
       newImageDescription: "",
-      newImageUrl: "",
       imageReference: null,
+      loading: false,
     };
   },
   mounted() {
@@ -86,6 +87,7 @@ export default {
     },
     async postNewImage() {
       try {
+        this.loading = true;
         let imageName =
           "posts/" + store.currentUser + "/" + Date.now() + ".png";
 
@@ -106,6 +108,7 @@ export default {
         this.newImageDescription = "";
         this.imageReference = null;
         this.getPosts();
+        this.loading = false;
       } catch (e) {
         console.log("Greška:", e);
       }
