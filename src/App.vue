@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light">
+  <nav class="navbar navbar-expand-md navbar-light">
     <a class="navbar-brand" href="/">
       <img
         src="@/assets/fipu_logo.png"
@@ -19,36 +19,29 @@
     >
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div
-      class="collapse navbar-collapse justify-content-between"
-      id="navbarNavAltMarkup"
-    >
-      <ul class="navbar-nav">
-        <li v-if="!store.currentUser" class="nav-item">
-          <router-link to="/login" class="px-2">Login</router-link>
-        </li>
-        <li v-if="!store.currentUser" class="nav-item">
-          <router-link to="/signup" class="px-2">Signup</router-link>
-        </li>
-        <li v-if="store.currentUser" class="nav-item">
-          <a href="#" @click="logout" class="px-2">Logout</a>
-        </li>
-      </ul>
-
-      <div class="row">
-        <NavbarButtons v-if="store.currentUser" />
-
-        <form class="form-inline my-2 my-lg-0">
-          <input
-            v-model="store.searchTerm"
-            class="form-control mr-sm-2 px-2"
-            type="search"
-            placeholder="Pretraga"
-            aria-label="Search"
-          />
-        </form>
-      </div>
+    <div class="collapse navbar-collapse" id="navbarToggler">
+      <form class="navbar-form form-inline ml-auto">
+        <input
+          v-model="store.searchTerm"
+          class="form-control mr-sm-2"
+          type="search"
+          placeholder="Pretraga"
+          aria-label="Search"
+        />
+      </form>
     </div>
+    <!-- <NavbarButtons v-if="store.currentUser" /> -->
+    <ul class="navbar-nav ml-auto">
+      <li v-if="!store.currentUser" class="nav-item">
+        <router-link to="/login" class="px-2">Login</router-link>
+      </li>
+      <li v-if="!store.currentUser" class="nav-item">
+        <router-link to="/signup" class="px-2">Signup</router-link>
+      </li>
+      <li v-if="store.currentUser" class="nav-item">
+        <a href="#" @click="logout" class="px-2">Logout</a>
+      </li>
+    </ul>
   </nav>
   <router-view />
 </template>
