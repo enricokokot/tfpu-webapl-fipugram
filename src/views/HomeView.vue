@@ -27,11 +27,7 @@
         <button type="submit" class="btn btn-primary ml-2">Post image</button>
       </form>
       <!-- listanje kartica -->
-      <instagram-card
-        v-for="card in filterCards"
-        :key="card.url"
-        :card="card"
-      />
+      <instagram-card v-for="card in filterCards" :key="card.id" :card="card" />
     </div>
     <div class="col-3">Sidebar</div>
   </div>
@@ -42,37 +38,52 @@
 import InstagramCard from "@/components/InstagramCard.vue";
 import store from "@/store";
 import { db } from "@/firebase";
-import { collection, addDoc } from "firebase/firestore";
-
-const cards = [
-  {
-    url: "https://picsum.photos/id/1/800",
-    description: "laptop #1",
-    time: "few minutes ago...",
-  },
-  {
-    url: "https://picsum.photos/id/2/800",
-    description: "laptop #2",
-    time: "hour ago...",
-  },
-  {
-    url: "https://picsum.photos/id/3/800",
-    description: "laptop #3",
-    time: "few hours ago...",
-  },
-];
+import {
+  collection,
+  query,
+  orderBy,
+  limit,
+  addDoc,
+  getDocs,
+} from "firebase/firestore";
 
 export default {
   name: "HomeView",
   data: function () {
     return {
-      cards,
+      cards: [],
       store,
       newImageDescription: "",
       newImageUrl: "",
     };
   },
+  mounted() {
+    this.getPosts();
+  },
   methods: {
+    async getPosts() {
+      this.cards = [];
+
+      const q = query(
+        collection(db, "posts"),
+        orderBy("posted_at", "desc"),
+        limit(10)
+      );
+
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, " => ", doc.data());
+        const data = doc.data();
+
+        this.cards.push({
+          id: doc.id,
+          time: data.posted_at,
+          description: data.desc,
+          url: data.url,
+        });
+      });
+    },
     async postNewImage() {
       const imageUrl = this.newImageUrl;
       const imageDescription = this.newImageDescription;
@@ -87,6 +98,7 @@ export default {
         console.log("Spremljeno", docRef);
         this.newImageDescription = "";
         this.newImageUrl = "";
+        this.getPosts();
       } catch (e) {
         console.error("Error adding document: ", e);
       }

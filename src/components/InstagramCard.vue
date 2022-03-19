@@ -5,16 +5,22 @@
       <img class="card-img-top" :src="card.url" />
     </div>
     <PostButtons />
-    <div class="card-footer text-muted">{{ card.time }}</div>
+    <div class="card-footer text-muted">{{ postedFromNow }}</div>
   </div>
 </template>
 
 <script>
 import PostButtons from "@/components/PostButtons.vue";
+import moment from "moment";
 
 export default {
   props: ["card"],
   name: "InstagramCard",
+  computed: {
+    postedFromNow() {
+      return moment(this.card.time).fromNow();
+    },
+  },
   components: {
     PostButtons,
   },
