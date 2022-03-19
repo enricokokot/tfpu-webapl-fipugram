@@ -3,17 +3,12 @@
     <div class="col-2"></div>
     <div class="col-7">
       <!-- nova forma za post -->
-      <form @submit.prevent="postNewImage" class="form-inline mb-5">
-        <div class="form-group">
-          <label for="imageUrl">Image URL</label>
-          <input
-            v-model="newImageUrl"
-            type="text"
-            class="form-control ml-2"
-            placeholder="Enter the image URL"
-            id="imageUrl"
-          />
-        </div>
+      <form @submit.prevent="postNewImage" class="mb-5">
+        <UploadImages
+          :max="1"
+          maxError="Max files exceed"
+          @changed="handleImages"
+        />
         <div class="form-group">
           <label for="imageDescription">Description</label>
           <input
@@ -37,7 +32,7 @@
 // @ is an alias to /src
 import InstagramCard from "@/components/InstagramCard.vue";
 import store from "@/store";
-import { db } from "@/firebase";
+import { db, storage } from "@/firebase";
 import {
   collection,
   query,
@@ -46,6 +41,7 @@ import {
   addDoc,
   getDocs,
 } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export default {
   name: "HomeView",
@@ -55,12 +51,16 @@ export default {
       store,
       newImageDescription: "",
       newImageUrl: "",
+      imageReference: null,
     };
   },
   mounted() {
     this.getPosts();
   },
   methods: {
+    handleImages(files) {
+      this.imageReference = files[0];
+    },
     async getPosts() {
       this.cards = [];
 
@@ -73,7 +73,7 @@ export default {
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, " => ", doc.data());
+        // console.log(doc.id, " => ", doc.data());
         const data = doc.data();
 
         this.cards.push({
@@ -85,23 +85,35 @@ export default {
       });
     },
     async postNewImage() {
-      const imageUrl = this.newImageUrl;
-      const imageDescription = this.newImageDescription;
+      let imageName = "posts/" + store.currentUser + "/" + Date.now() + ".png";
 
-      try {
-        const docRef = await addDoc(collection(db, "posts"), {
-          url: imageUrl,
-          desc: imageDescription,
-          email: store.currentUser,
-          posted_at: Date.now(),
-        });
-        console.log("Spremljeno", docRef);
-        this.newImageDescription = "";
-        this.newImageUrl = "";
-        this.getPosts();
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
+      const storageRef = ref(storage, imageName);
+
+      uploadBytes(storageRef, this.imageReference)
+        .then((snapshot) => {
+          getDownloadURL(storageRef)
+            .then((url) => {
+              console.log("javni link", url);
+              const imageDescription = this.newImageDescription;
+
+              try {
+                const docRef = addDoc(collection(db, "posts"), {
+                  url: url,
+                  desc: imageDescription,
+                  email: store.currentUser,
+                  posted_at: Date.now(),
+                });
+                console.log("Spremljeno", docRef);
+                this.newImageDescription = "";
+                this.imageReference = null;
+                this.getPosts();
+              } catch (e) {
+                console.error("Error adding document: ", e);
+              }
+            })
+            .catch((e) => console.log(e));
+        })
+        .catch((e) => console.error(e));
     },
   },
   computed: {
