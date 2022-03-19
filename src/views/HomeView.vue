@@ -85,35 +85,30 @@ export default {
       });
     },
     async postNewImage() {
-      let imageName = "posts/" + store.currentUser + "/" + Date.now() + ".png";
+      try {
+        let imageName =
+          "posts/" + store.currentUser + "/" + Date.now() + ".png";
 
-      const storageRef = ref(storage, imageName);
+        const storageRef = ref(storage, imageName);
 
-      uploadBytes(storageRef, this.imageReference)
-        .then((snapshot) => {
-          getDownloadURL(storageRef)
-            .then((url) => {
-              console.log("javni link", url);
-              const imageDescription = this.newImageDescription;
+        await uploadBytes(storageRef, this.imageReference);
+        const url = await getDownloadURL(storageRef);
+        console.log("javni link", url);
+        const imageDescription = this.newImageDescription;
 
-              try {
-                const docRef = addDoc(collection(db, "posts"), {
-                  url: url,
-                  desc: imageDescription,
-                  email: store.currentUser,
-                  posted_at: Date.now(),
-                });
-                console.log("Spremljeno", docRef);
-                this.newImageDescription = "";
-                this.imageReference = null;
-                this.getPosts();
-              } catch (e) {
-                console.error("Error adding document: ", e);
-              }
-            })
-            .catch((e) => console.log(e));
-        })
-        .catch((e) => console.error(e));
+        const docRef = addDoc(collection(db, "posts"), {
+          url: url,
+          desc: imageDescription,
+          email: store.currentUser,
+          posted_at: Date.now(),
+        });
+        console.log("Spremljeno", docRef);
+        this.newImageDescription = "";
+        this.imageReference = null;
+        this.getPosts();
+      } catch (e) {
+        console.log("Greška:", e);
+      }
     },
   },
   computed: {
