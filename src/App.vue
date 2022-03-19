@@ -2,9 +2,8 @@
   <nav class="navbar navbar-expand-lg navbar-light">
     <a class="navbar-brand" href="/">
       <img
-        src="@/assets/logo.png"
-        width="30"
-        height="30"
+        src="@/assets/fipu_logo.png"
+        height="40"
         class="d-inline-block align-top"
         alt=""
       />
