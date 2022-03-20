@@ -20,6 +20,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarToggler">
+      <!-- https://stackoverflow.com/questions/46565914/bootstrap-4-center-searchbar-in-navbar -->
       <form class="navbar-form form-inline ml-auto mr-auto">
         <input
           v-model="store.searchTerm"

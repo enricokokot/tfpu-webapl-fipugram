@@ -89,6 +89,7 @@ export default {
           time: data.posted_at,
           description: data.desc,
           url: data.url,
+          user: data.email,
         });
       });
     },
@@ -125,6 +126,8 @@ export default {
     filterCards() {
       return this.cards.filter((card) =>
         card.description.includes(this.store.searchTerm)
+          ? card.description.includes(this.store.searchTerm)
+          : card.user.includes(this.store.searchTerm)
       );
     },
   },
