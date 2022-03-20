@@ -4,7 +4,7 @@
     <div class="card-body p-0">
       <img class="card-img-top" :src="card.url" />
     </div>
-    <PostButtons />
+    <PostButtons class="text-left mt-2 ml-2" />
     <div class="card-footer text-muted">{{ postedFromNow }}</div>
   </div>
 </template>

@@ -1,31 +1,38 @@
 <template>
-  <div class="row">
-    <div class="col-2"></div>
-    <div class="col-7">
-      <!-- nova forma za post -->
-      <form v-if="!loading" @submit.prevent="postNewImage" class="mb-5">
-        <UploadImages
-          :max="1"
-          maxError="Max files exceed"
-          @changed="handleImages"
-        />
-        <div class="form-group">
-          <label for="imageDescription">Description</label>
-          <input
-            v-model="newImageDescription"
-            type="text"
-            class="form-control ml-2"
-            placeholder="Enter the image description"
-            id="imageDescription"
+  <!-- https://stackoverflow.com/questions/18969051/bootstrap-3-why-is-row-class-is-wider-than-its-container -->
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-1"></div>
+      <div class="col-7">
+        <!-- nova forma za post -->
+        <form v-if="!loading" @submit.prevent="postNewImage" class="mb-5">
+          <UploadImages
+            :max="1"
+            maxError="Max files exceed"
+            @changed="handleImages"
           />
-        </div>
-        <button type="submit" class="btn btn-primary ml-2">Post image</button>
-      </form>
-      <img v-if="loading" src="@/assets/loading.gif" width="400" />
-      <!-- listanje kartica -->
-      <instagram-card v-for="card in filterCards" :key="card.id" :card="card" />
+          <div class="form-group">
+            <label for="imageDescription">Description</label>
+            <input
+              v-model="newImageDescription"
+              type="text"
+              class="form-control"
+              placeholder="Enter the image description"
+              id="imageDescription"
+            />
+          </div>
+          <button type="submit" class="btn btn-primary">Post image</button>
+        </form>
+        <img v-if="loading" src="@/assets/loading.gif" width="400" />
+        <!-- listanje kartica -->
+        <instagram-card
+          v-for="card in filterCards"
+          :key="card.id"
+          :card="card"
+        />
+      </div>
+      <div class="col-3">Sidebar</div>
     </div>
-    <div class="col-3">Sidebar</div>
   </div>
 </template>
 

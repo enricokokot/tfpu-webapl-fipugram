@@ -20,10 +20,10 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarToggler">
-      <form class="navbar-form form-inline ml-auto">
+      <form class="navbar-form form-inline ml-auto mr-auto">
         <input
           v-model="store.searchTerm"
-          class="form-control mr-sm-2"
+          class="form-control"
           type="search"
           placeholder="Pretraga"
           aria-label="Search"
