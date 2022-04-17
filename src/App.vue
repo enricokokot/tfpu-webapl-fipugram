@@ -19,9 +19,9 @@
     >
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarToggler">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <!-- https://stackoverflow.com/questions/46565914/bootstrap-4-center-searchbar-in-navbar -->
-      <form class="navbar-form form-inline ml-auto mr-auto">
+      <form class="navbar-form ml-auto mr-auto">
         <input
           v-model="store.searchTerm"
           class="form-control"
@@ -30,19 +30,18 @@
           aria-label="Search"
         />
       </form>
+      <ul class="navbar-nav ml-auto">
+        <li v-if="!store.currentUser" class="nav-item">
+          <router-link to="/login" class="px-2">Login</router-link>
+        </li>
+        <li v-if="!store.currentUser" class="nav-item">
+          <router-link to="/signup" class="px-2">Signup</router-link>
+        </li>
+        <li v-if="store.currentUser" class="nav-item">
+          <a href="#" @click="logout" class="px-2">Logout</a>
+        </li>
+      </ul>
     </div>
-    <!-- <NavbarButtons v-if="store.currentUser" /> -->
-    <ul class="navbar-nav ml-auto">
-      <li v-if="!store.currentUser" class="nav-item">
-        <router-link to="/login" class="px-2">Login</router-link>
-      </li>
-      <li v-if="!store.currentUser" class="nav-item">
-        <router-link to="/signup" class="px-2">Signup</router-link>
-      </li>
-      <li v-if="store.currentUser" class="nav-item">
-        <a href="#" @click="logout" class="px-2">Logout</a>
-      </li>
-    </ul>
   </nav>
   <router-view />
 </template>
